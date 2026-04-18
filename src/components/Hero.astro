@@ -1,0 +1,200 @@
+---
+// Hero.astro
+// Propósito: Sección principal de impacto visual.
+---
+
+<section class="hero">
+	<div class="hero-container">
+		<div class="hero-content">
+			<span class="badge">Nuevas Aventuras 2024</span>
+			<h1>Viste su <span>imaginación</span> con suavidad</h1>
+			<p>Ropa diseñada para jugar, crecer y soñar. Algodón orgánico y colores que acompañan cada paso.</p>
+			<div class="hero-actions">
+				<a href="#" class="btn btn-primary">Ver Colección</a>
+				<a href="#" class="btn btn-secondary">Niños & Niñas</a>
+			</div>
+		</div>
+		
+		<div class="hero-visual">
+			<div class="blob-container">
+				<img src="https://images.unsplash.com/photo-1519704943920-1844582b75bc?auto=format&fit=crop&q=80&w=800" alt="Niños jugando" class="hero-img" />
+			</div>
+			<!-- Elementos decorativos (Firma) -->
+			<div class="bubble bubble-1"></div>
+			<div class="bubble bubble-2"></div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		padding-top: 100px;
+		padding-bottom: 60px;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero-container {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: calc(var(--space) * 8);
+		align-items: center;
+		padding: 0 calc(var(--space) * 4);
+	}
+
+	.hero-content {
+		z-index: 2;
+	}
+
+	.badge {
+		display: inline-block;
+		padding: calc(var(--space) * 0.75) calc(var(--space) * 2);
+		background: rgba(255, 255, 255, 0.4);
+		border-radius: var(--radius-pill);
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--brand-pink);
+		margin-bottom: calc(var(--space) * 3);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	h1 {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		line-height: 1.1;
+		margin-bottom: calc(var(--space) * 3);
+	}
+
+	h1 span {
+		color: var(--white);
+		text-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	p {
+		font-size: 1.1rem;
+		color: rgba(0, 0, 0, 0.7);
+		margin-bottom: calc(var(--space) * 5);
+		max-width: 500px;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: calc(var(--space) * 2);
+	}
+
+	.btn {
+		padding: calc(var(--space) * 2) calc(var(--space) * 4);
+		border-radius: var(--radius-pill);
+		font-weight: 700;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		display: inline-block;
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-float);
+	}
+
+	.btn-primary {
+		background: var(--brand-pink);
+		color: var(--white);
+	}
+
+	.btn-secondary {
+		background: var(--white);
+		color: var(--brand-blue);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	/* Firma: Blob y Burbujas */
+	.hero-visual {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.blob-container {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: var(--radius-blob);
+		overflow: hidden;
+		animation: morph 10s ease-in-out infinite alternate;
+		box-shadow: var(--shadow-subtle);
+	}
+
+	.hero-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.blob-container:hover .hero-img {
+		transform: scale(1.05);
+	}
+
+	.bubble {
+		position: absolute;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: blur(4px);
+		z-index: 1;
+		animation: float 6s ease-in-out infinite;
+	}
+
+	.bubble-1 {
+		width: 80px;
+		height: 80px;
+		top: -20px;
+		right: 20px;
+		background: var(--brand-blue);
+		opacity: 0.4;
+	}
+
+	.bubble-2 {
+		width: 120px;
+		height: 120px;
+		bottom: -30px;
+		left: -20px;
+		background: var(--brand-pink);
+		opacity: 0.4;
+		animation-delay: -3s;
+	}
+
+	@keyframes morph {
+		0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+		100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+	}
+
+	@keyframes float {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-20px); }
+	}
+
+	@media (max-width: 968px) {
+		.hero-container {
+			grid-template-columns: 1fr;
+			text-align: center;
+			gap: calc(var(--space) * 6);
+		}
+		
+		.hero-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.hero-visual {
+			max-width: 400px;
+			margin: 0 auto;
+		}
+	}
+</style>

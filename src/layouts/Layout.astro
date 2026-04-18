@@ -1,23 +1,103 @@
+---
+// Layout.astro
+// Propósito: Definir la estructura base del proyecto, fuentes y estilos globales.
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Nube de Colores | E-commerce Infantil</title>
+		<!-- Fuentes de Google: Comfortaa para títulos y Lato para contenido -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
+	:root {
+		/* Paleta de Colores Principal */
+		--brand-pink: #E3AAAA;
+		--brand-blue: #87CEEB;
+		--white: #FFFFFF;
+		--ink: #000000;
+		
+		/* Colores de soporte del gradiente */
+		--gradient-2: #dfadc7;
+		--gradient-3: #cab6e1;
+		--gradient-4: #a7c3ef;
+
+		/* Tipografía */
+		--font-title: 'Comfortaa', cursive;
+		--font-body: 'Lato', sans-serif;
+
+		/* Espaciado Base */
+		--space: 8px;
+		
+		/* Estética: Capas y Bordes */
+		--radius-sm: 8px;
+		--radius-md: 16px;
+		--radius-lg: 32px;
+		--radius-pill: 9999px;
+		--radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Firma: Formas orgánicas */
+		
+		--shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.05);
+		--shadow-float: 0 8px 24px rgba(0, 0, 0, 0.1);
+	}
+
+	*, *::before, *::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
 	html,
 	body {
-		margin: 0;
 		width: 100%;
-		height: 100%;
+		min-height: 100%;
+		font-family: var(--font-body);
+		color: var(--ink);
+		line-height: 1.6;
+		overflow-x: hidden;
+	}
+
+	body {
+		/* El gradiente solicitado para el background */
+		background-image: linear-gradient(to left top, var(--brand-pink), var(--gradient-2), var(--gradient-3), var(--gradient-4), var(--brand-blue));
+		background-attachment: fixed;
+		background-size: cover;
+	}
+
+	h1, h2, h3, h4 {
+		font-family: var(--font-title);
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		transition: opacity 0.2s ease;
+	}
+
+	a:hover {
+		opacity: 0.8;
+	}
+
+	ul {
+		list-style: none;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		display: block;
 	}
 </style>

@@ -1,46 +1,31 @@
-# Astro Starter Kit: Basics
+# Nube de Colores | E-commerce Infantil
 
-```sh
-npm create astro@latest -- --template basics
-```
+Plataforma de comercio electrónico especializada en ropa para niños y niñas, diseñada con una estética lúdica, suave y moderna utilizando Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🎨 Patrón de Diseño: Lúdico-Orgánico (Signature Design)
 
-## 🚀 Project Structure
+El proyecto se basa en el patrón de **Componentes Atómicos** integrados en un sistema de **Capas y Superficies (Layered Surfaces)**. Las decisiones técnicas clave incluyen:
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Firma Visual (Organic Signatures):** Uso de `blobs` (formas orgánicas) y bordes redondeados irregulares (`--radius-blob`) para romper la rigidez de las interfaces tradicionales y evocar la suavidad y el juego infantil.
+- **Transparencia y Profundidad:** Implementación de `Glassmorphism` en la navegación y el pie de página para integrarse suavemente con el fondo degradado, permitiendo que el contenido "flote" sin generar barreras visuales pesadas.
+- **Arquitectura de Tokens:** Centralización de colores (`--brand-pink`, `--brand-blue`), tipografía (`Comfortaa` para impacto emocional, `Lato` para claridad funcional) y espaciado en variables CSS globales.
+- **Estructura Asimétrica:** El Hero utiliza un diseño no lineal para guiar la vista del usuario de forma dinámica, reforzando la sensación de aventura y creatividad.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## 🚀 Estructura del Proyecto
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- `src/components/`: Componentes individuales (Navbar, Hero, Footer).
+- `src/layouts/`: Estructura base y estilos globales.
+- `src/pages/`: Páginas del sitio.
 
-## 🧞 Commands
+## 🛠️ Comandos
 
-All commands are run from the root of the project, from a terminal:
+| Comando | Acción |
+| :--- | :--- |
+| `pnpm dev` | Inicia el servidor de desarrollo local. |
+| `pnpm build` | Compila el sitio para producción. |
+| `pnpm preview` | Previsualiza la compilación localmente. |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 📝 Log de Errores
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **2024-04-17:** Limpieza inicial del proyecto (eliminación de `Welcome.astro` y assets por defecto). Se corrigió la configuración de fuentes de Google en el `Layout` para evitar problemas de carga asíncrona mediante el uso de enlaces `preconnect` y `link` tradicionales en lugar de `@fontsource` para asegurar compatibilidad total inmediata con el degradado de fondo.
+- **2024-04-17:** Resolución de conflicto en el `Navbar` fijo sobre el `Hero`. Se implementó `padding-top` en el contenedor del Hero y un `backdrop-filter` para asegurar la legibilidad del texto durante el scroll.

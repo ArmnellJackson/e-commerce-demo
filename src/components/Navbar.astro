@@ -1,0 +1,105 @@
+---
+// Navbar.astro
+// Propósito: Barra de navegación transparente y flotante.
+---
+
+<nav class="navbar">
+	<div class="nav-container">
+		<div class="logo">
+			<a href="/">nube<span>colores</span></a>
+		</div>
+		<ul class="nav-links">
+			<li><a href="#">niñas</a></li>
+			<li><a href="#">niños</a></li>
+			<li><a href="#">bebés</a></li>
+			<li><a href="#">colección</a></li>
+		</ul>
+		<div class="nav-actions">
+			<button class="icon-btn" aria-label="Buscar">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+			</button>
+			<button class="icon-btn" aria-label="Carrito">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+			</button>
+		</div>
+	</div>
+</nav>
+
+<style>
+	.navbar {
+		position: fixed;
+		top: calc(var(--space) * 3);
+		left: 0;
+		right: 0;
+		z-index: 100;
+		display: flex;
+		justify-content: center;
+		padding: 0 calc(var(--space) * 2);
+	}
+
+	.nav-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		max-width: 1200px;
+		background: rgba(255, 255, 255, 0.4);
+		backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		padding: calc(var(--space) * 1.5) calc(var(--space) * 4);
+		border-radius: var(--radius-pill);
+		box-shadow: var(--shadow-subtle);
+	}
+
+	.logo a {
+		font-family: var(--font-title);
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--ink);
+	}
+
+	.logo span {
+		color: var(--brand-blue);
+		opacity: 0.8;
+	}
+
+	.nav-links {
+		display: flex;
+		gap: calc(var(--space) * 4);
+	}
+
+	.nav-links a {
+		font-size: 0.95rem;
+		font-weight: 500;
+		text-transform: lowercase;
+		letter-spacing: 0.05em;
+	}
+
+	.nav-actions {
+		display: flex;
+		gap: calc(var(--space) * 1.5);
+	}
+
+	.icon-btn {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		color: var(--ink);
+		padding: var(--space);
+		border-radius: 50%;
+		transition: background 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.icon-btn:hover {
+		background: rgba(255, 255, 255, 0.4);
+	}
+
+	@media (max-width: 768px) {
+		.nav-links {
+			display: none;
+		}
+	}
+</style>

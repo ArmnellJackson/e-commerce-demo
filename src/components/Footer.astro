@@ -1,0 +1,162 @@
+---
+// Footer.astro
+// Propósito: Pie de página transparente y ligero.
+---
+
+<footer class="footer">
+	<div class="footer-container">
+		<div class="footer-brand">
+			<a href="/" class="logo">nube<span>colores</span></a>
+			<p>Ropa con amor para los más pequeños de la casa.</p>
+		</div>
+		
+		<div class="footer-links">
+			<div class="link-group">
+				<h4>Compra</h4>
+				<ul>
+					<li><a href="#">Recién Nacidos</a></li>
+					<li><a href="#">Niños</a></li>
+					<li><a href="#">Niñas</a></li>
+					<li><a href="#">Accesorios</a></li>
+				</ul>
+			</div>
+			<div class="link-group">
+				<h4>Ayuda</h4>
+				<ul>
+					<li><a href="#">Envíos</a></li>
+					<li><a href="#">Devoluciones</a></li>
+					<li><a href="#">Tallas</a></li>
+					<li><a href="#">Contacto</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer-social">
+			<h4>Síguenos</h4>
+			<div class="social-icons">
+				<a href="#" aria-label="Instagram">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+				</a>
+				<a href="#" aria-label="Pinterest">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="8" y2="16"/><line x1="8" x2="16" y1="12" y2="12"/><circle cx="12" cy="12" r="10"/></svg>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<p>&copy; 2024 Nube de Colores. Hecho con ternura.</p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		padding: calc(var(--space) * 8) calc(var(--space) * 4) calc(var(--space) * 4);
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(8px);
+		border-top: 1px solid rgba(255, 255, 255, 0.3);
+		margin-top: calc(var(--space) * 10);
+	}
+
+	.footer-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1.5fr 2fr 1fr;
+		gap: calc(var(--space) * 6);
+	}
+
+	.logo {
+		font-family: var(--font-title);
+		font-size: 1.5rem;
+		font-weight: 700;
+		display: block;
+		margin-bottom: calc(var(--space) * 2);
+	}
+
+	.logo span {
+		color: var(--brand-pink);
+	}
+
+	.footer-brand p {
+		font-size: 0.9rem;
+		opacity: 0.7;
+		max-width: 240px;
+	}
+
+	.footer-links {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	h4 {
+		font-size: 1rem;
+		margin-bottom: calc(var(--space) * 2.5);
+		color: var(--ink);
+	}
+
+	ul li {
+		margin-bottom: var(--space);
+	}
+
+	ul a {
+		font-size: 0.9rem;
+		opacity: 0.6;
+		transition: opacity 0.2s ease;
+	}
+
+	ul a:hover {
+		opacity: 1;
+		color: var(--brand-pink);
+	}
+
+	.social-icons {
+		display: flex;
+		gap: var(--space);
+	}
+
+	.social-icons a {
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, 0.3);
+		border-radius: 50%;
+		transition: background 0.2s ease;
+	}
+
+	.social-icons a:hover {
+		background: var(--brand-blue);
+		color: var(--white);
+	}
+
+	.footer-bottom {
+		max-width: 1200px;
+		margin: calc(var(--space) * 6) auto 0;
+		padding-top: calc(var(--space) * 4);
+		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		text-align: center;
+		font-size: 0.8rem;
+		opacity: 0.5;
+	}
+
+	@media (max-width: 768px) {
+		.footer-container {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.footer-brand p {
+			margin: 0 auto calc(var(--space) * 4);
+		}
+
+		.footer-links {
+			flex-direction: column;
+			gap: calc(var(--space) * 4);
+		}
+
+		.social-icons {
+			justify-content: center;
+		}
+	}
+</style>
