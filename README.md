@@ -13,7 +13,8 @@ El proyecto se basa en el patrón de **Componentes Atómicos** integrados en un 
   - **Tipografía:** `Comfortaa` (títulos), `Lato` (contenido).
 - **Estructura Asimétrica:** Hero no lineal que guía la vista de forma dinámica.
 
-## 🎯 Migración a Tailwind CSS v4 (CSS-first)
+## 🎯 Migración a Tailwind CS
+S v4 (CSS-first)
 
 Se reemplazó la hoja global basada en variables CSS por el enfoque **CSS-first** de Tailwind v4, eliminando `tailwind.config.*` y delegando la configuración al propio stylesheet.
 
