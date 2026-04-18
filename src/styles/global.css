@@ -82,4 +82,11 @@
   a:hover { opacity: 0.85; }
 
   img { max-width: 100%; height: auto; display: block; }
+
+  /*
+   * Habilita animaciones en <details>: por defecto el navegador aplica
+   * display:none al contenido cerrado, lo que impide transicionar opacity/transform.
+   * Forzamos su render para controlar la animación vía clases group-open.
+   */
+  details > *:not(summary) { display: block; }
 }

@@ -23,5 +23,33 @@ import "../styles/global.css";
 	</head>
 	<body class="h-dvh overflow-hidden flex flex-col">
 		<slot />
+
+		<!--
+			Script global para <details>:
+			- Cierra el panel abierto al hacer click fuera (outside-click).
+			- Cierra el panel al hacer click en cualquier enlace o botón interno
+			  (excepto el <summary>, que conserva su toggle nativo).
+		-->
+		<script>
+			// Cierre por click fuera: si el click no está dentro del <details>, se cierra.
+			document.addEventListener('click', (e) => {
+				const target = e.target as Node;
+				document.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((d) => {
+					if (!d.contains(target)) d.open = false;
+				});
+			});
+
+			// Cierre al pulsar un elemento interno (enlace/botón) del panel.
+			// Excepciones: summary (toggle nativo) y cualquier nodo con data-no-close
+			// (ej. lupa que abre input inline sin cerrar el menú).
+			document.querySelectorAll<HTMLDetailsElement>('details').forEach((d) => {
+				d.addEventListener('click', (e) => {
+					const el = e.target as HTMLElement;
+					if (el.closest('summary')) return;
+					if (el.closest('[data-no-close]')) return;
+					if (el.closest('a, button')) d.open = false;
+				});
+			});
+		</script>
 	</body>
 </html>
