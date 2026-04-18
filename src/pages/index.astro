@@ -1,25 +1,17 @@
 ---
+// index.astro
+// Propósito: Página de inicio. Compone la columna flex (Navbar, Hero flexible, Footer anclado).
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import Footer from '../components/Footer.astro';
-
-// Propósito: Página de inicio que integra los componentes principales.
 ---
 
 <Layout>
 	<Navbar />
-	<main>
+	<!-- min-h-0 evita que flex-1 se desborde por contenido intrínseco -->
+	<main class="flex-1 min-h-0 flex flex-col overflow-hidden">
 		<Hero />
-		<!-- Aquí se pueden añadir secciones de productos, categorías, etc. -->
 	</main>
 	<Footer />
 </Layout>
-
-<style>
-	main {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-</style>
