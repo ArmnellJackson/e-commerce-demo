@@ -6,6 +6,7 @@
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Catalog } from "@/components/Catalog";
+import { AuthModal } from "@/components/AuthModal";
 import type { Category } from "@/lib/products";
 
 type Selection = Category | "todo" | null;
@@ -27,6 +28,7 @@ export function Shell({ children }: ShellProps) {
   const [selection, setSelection] = useState<Selection>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
 
   const showCatalog = selection !== null;
 
@@ -91,6 +93,7 @@ export function Shell({ children }: ShellProps) {
               </svg>
             </button>
             <button
+              onClick={() => setAuthOpen(true)}
               className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-white/40"
               aria-label="Iniciar sesión"
             >
@@ -180,6 +183,7 @@ export function Shell({ children }: ShellProps) {
                   </svg>
                 </button>
                 <button
+                  onClick={() => { setAuthOpen(true); setMenuOpen(false); }}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/60 transition-colors hover:bg-white"
                   aria-label="Iniciar sesión"
                 >
@@ -193,6 +197,9 @@ export function Shell({ children }: ShellProps) {
           </div>
         </div>
       </nav>
+
+      {/* Modal de autenticación: controlado por authOpen */}
+      <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
 
       {/* ===================== MAIN =====================
           Hero  → flex column sin scroll (viewport-bound, igual que el diseño original).

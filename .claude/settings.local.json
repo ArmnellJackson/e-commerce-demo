@@ -3,7 +3,9 @@
     "allow": [
       "mcp__context7__query-docs",
       "mcp__context7__resolve-library-id",
-      "Bash(pnpm add *)"
+      "Bash(pnpm add *)",
+      "Skill(shadcn-ui)",
+      "Bash(npx astro *)"
     ]
   }
 }
