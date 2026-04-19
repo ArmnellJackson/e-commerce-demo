@@ -5,6 +5,7 @@
  */
 
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
 
 /* Tokens de diseño (@theme expone las variables como utilidades Tailwind) */
 @theme {
