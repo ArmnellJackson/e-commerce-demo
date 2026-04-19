@@ -62,9 +62,7 @@ export function Shell({ children }: ShellProps) {
           <button
             type="button"
             onClick={() => setSelection(null)}
-            className="font-[family-name:var(--font-title)] text-xl sm:text-2xl font-bold"
-          >
-            nube<span className="text-brand-blue/80">colores</span>
+            className="font-[family-name:var(--font-title)] text-xl sm:text-2xl font-bold">nube<span className="text-brand-pink/80">colores</span>
           </button>
 
           {/* Enlaces desktop */}
