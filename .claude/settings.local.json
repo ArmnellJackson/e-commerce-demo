@@ -5,7 +5,8 @@
       "mcp__context7__resolve-library-id",
       "Bash(pnpm add *)",
       "Skill(shadcn-ui)",
-      "Bash(npx astro *)"
+      "Bash(npx astro *)",
+      "Bash(npx shadcn@latest add sheet --yes)"
     ]
   }
 }
