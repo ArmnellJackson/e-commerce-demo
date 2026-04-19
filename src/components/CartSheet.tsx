@@ -10,6 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { PaymentDialog } from "@/components/PaymentDialog";
 import { cn } from "@/lib/utils";
 
 interface CartItem {
@@ -33,6 +34,7 @@ const INITIAL_ITEMS: CartItem[] = [
 
 export function CartSheet({ open, onOpenChange }: CartSheetProps) {
   const [items, setItems] = useState<CartItem[]>(INITIAL_ITEMS);
+  const [payOpen, setPayOpen] = useState(false);
 
   // Incrementa/decrementa cantidad; elimina si llega a 0
   const updateQty = (id: number, delta: number) => {
@@ -136,6 +138,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
             </div>
             <button
               type="button"
+              onClick={() => setPayOpen(true)}
               className="w-full rounded-full bg-brand-pink py-3 text-sm font-semibold text-white transition-opacity hover:opacity-80"
             >
               Ir al pago
@@ -143,6 +146,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
           </div>
         )}
       </SheetContent>
+      <PaymentDialog open={payOpen} onOpenChange={setPayOpen} total={total} />
     </Sheet>
   );
 }
