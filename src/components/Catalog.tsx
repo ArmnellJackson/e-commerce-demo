@@ -16,7 +16,7 @@ export function Catalog({ category }: CatalogProps) {
       {/* Grid mobile-first: 2 cols → 3 sm → 4 lg, gap fluido */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
         {items.map((p) => (
-          <ProductCard key={p.src} src={p.src} alt={p.alt} />
+          <ProductCard key={p.src} src={p.src} alt={p.alt} name={p.name} price={p.price} />
         ))}
       </div>
     </section>
