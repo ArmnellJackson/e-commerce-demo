@@ -6,7 +6,9 @@
       "Bash(pnpm add *)",
       "Skill(shadcn-ui)",
       "Bash(npx astro *)",
-      "Bash(npx shadcn@latest add sheet --yes)"
+      "Bash(npx shadcn@latest add sheet --yes)",
+      "Bash(dir /b)",
+      "Bash(npm install *)"
     ]
   }
 }
