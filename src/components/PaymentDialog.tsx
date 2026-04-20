@@ -1,11 +1,10 @@
 // PaymentDialog.tsx
-// Propósito: Dialog de pago integrado con Stripe PaymentElement.
-// Crea un PaymentIntent en el servidor, muestra el formulario seguro de Stripe
-// y confirma el pago sin redireccionamiento externo.
-import { useState, useEffect } from "react";
+// Propósito: Dialog de pago con Stripe PaymentElement.
+// stripePromise y stripeAppearance se exportan para que CartSheet inicialice
+// Elements al abrir el carrito, reduciendo la latencia al abrir este dialog.
+import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
-  Elements,
   PaymentElement,
   useStripe,
   useElements,
@@ -18,16 +17,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// Instancia de Stripe — se crea una sola vez fuera del componente
-const stripePromise = loadStripe(
+// Exportado — CartSheet lo usa para montar <Elements> antes de abrir el dialog
+export const stripePromise = loadStripe(
   import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
 );
 
-// Apariencia personalizada para que Stripe Elements encaje con el diseño del proyecto
-const stripeAppearance = {
+export const stripeAppearance = {
   theme: "stripe" as const,
   variables: {
-    colorPrimary: "#f472b6",       // brand-pink
+    colorPrimary: "#f472b6",
     colorBackground: "#ffffff",
     colorText: "#1a1a1a",
     colorDanger: "#ef4444",
@@ -52,7 +50,7 @@ const stripeAppearance = {
   },
 };
 
-// ─── Formulario interno (necesita estar dentro de <Elements>) ─────────────────
+// ─── Formulario interno — debe estar dentro de <Elements> (montado en CartSheet) ──
 interface CheckoutFormProps {
   total: number;
   onSuccess: () => void;
@@ -71,7 +69,7 @@ function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
     setLoading(true);
     setError(null);
 
-    // 1. Validar el formulario de Stripe antes de llamar al servidor
+    // 1. Validar formulario de Stripe
     const { error: submitError } = await elements.submit();
     if (submitError) {
       setError(submitError.message ?? "Error al validar el formulario");
@@ -96,7 +94,7 @@ function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
       return;
     }
 
-    // 3. Confirmar el pago — redirect: 'if_required' evita salir de la página
+    // 3. Confirmar sin redirección externa
     const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
       clientSecret,
@@ -126,17 +124,18 @@ function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
         </div>
       </div>
 
-      {/* Formulario seguro de Stripe — necesita clave válida en .env para renderizar */}
+      {/* wallets: 'never' desactiva Link, Google Pay y Apple Pay */}
       <div className="min-h-[120px]">
-        <PaymentElement options={{ layout: "tabs" }} />
+        <PaymentElement
+          options={{
+            layout: "tabs",
+            wallets: { link: "never", applePay: "never", googlePay: "never" },
+          }}
+        />
       </div>
 
-      {/* Mensaje de error */}
-      {error && (
-        <p className="text-xs text-red-500 text-center">{error}</p>
-      )}
+      {error && <p className="text-xs text-red-500 text-center">{error}</p>}
 
-      {/* Total + botón */}
       <div className="flex flex-col gap-3 mt-1">
         <div className="flex items-center justify-between text-sm">
           <span className="text-black/50">Total a pagar</span>
@@ -156,7 +155,7 @@ function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
   );
 }
 
-// ─── Dialog principal ─────────────────────────────────────────────────────────
+// ─── Dialog principal — Elements ya está montado arriba en CartSheet ──────────
 interface PaymentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -166,20 +165,16 @@ interface PaymentDialogProps {
 export function PaymentDialog({ open, onOpenChange, total }: PaymentDialogProps) {
   const [succeeded, setSucceeded] = useState(false);
 
-  // Reinicia estado al cerrar
   const handleOpenChange = (next: boolean) => {
     if (!next) setSucceeded(false);
     onOpenChange(next);
   };
 
-  // Monto en centavos para Elements (se recalcula si cambia total)
-  const amountCents = Math.round(total * 100);
-
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         aria-describedby={undefined}
-        className="w-full max-w-sm rounded-3xl border border-white/50 bg-white/90 backdrop-blur-xl shadow-[var(--shadow-float)] p-6 sm:p-8"
+        className="w-full max-w-sm rounded-3xl border border-white/50 bg-white/90 backdrop-blur-xl shadow-[var(--shadow-float)] p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
       >
         <DialogHeader className="mb-4">
           <DialogTitle className="font-[family-name:var(--font-title)] text-xl text-center">
@@ -191,7 +186,6 @@ export function PaymentDialog({ open, onOpenChange, total }: PaymentDialogProps)
           </DialogTitle>
         </DialogHeader>
 
-        {/* Vista de éxito */}
         {succeeded ? (
           <div className="flex flex-col items-center gap-4 py-4 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-pink/20 text-brand-pink">
@@ -215,18 +209,7 @@ export function PaymentDialog({ open, onOpenChange, total }: PaymentDialogProps)
             </button>
           </div>
         ) : (
-          // Elements necesita el monto para calcular fees y métodos de pago disponibles
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "payment",
-              amount: amountCents,
-              currency: "pen",
-              appearance: stripeAppearance,
-            }}
-          >
-            <CheckoutForm total={total} onSuccess={() => setSucceeded(true)} />
-          </Elements>
+          <CheckoutForm total={total} onSuccess={() => setSucceeded(true)} />
         )}
       </DialogContent>
     </Dialog>

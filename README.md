@@ -63,13 +63,41 @@ Script global en `Layout.astro`:
 2. **Click interno en `<a>/<button>`**: cierra el panel salvo que el nodo tenga `data-no-close` (lupa) o sea el propio `<summary>`.
 3. Animaciones CSS habilitadas mediante override `details > *:not(summary) { display: block }` para que el navegador no oculte el contenido en estado cerrado (permitiendo transicionar `opacity`/`transform`).
 
+## 💳 Integración de Pagos (Stripe)
+
+El flujo de pago utiliza **Stripe PaymentElement** con modo de pruebas activo.
+
+### Arquitectura
+
+- **`src/pages/api/create-payment-intent.ts`**: endpoint SSR que crea el `PaymentIntent` en Stripe con el monto real (en PEN) y devuelve el `clientSecret`.
+- **`src/components/PaymentDialog.tsx`**: dialog con `CheckoutForm` que valida, llama al endpoint y confirma el pago vía `stripe.confirmPayment()` sin redirección externa.
+- **`src/components/CartSheet.tsx`**: monta el provider `<Elements>` de Stripe al abrir el carrito (pre-inicialización), eliminando la latencia al abrir el dialog de pago.
+
+### Decisiones técnicas
+
+- `redirect: 'if_required'` en `confirmPayment` → el usuario nunca abandona la página.
+- `wallets: { link: 'never', applePay: 'never', googlePay: 'never' }` → formulario minimalista sin métodos alternativos.
+- `@astrojs/vercel` como adapter SSR para el endpoint en producción (Vercel Serverless Functions).
+- Variables de entorno: `STRIPE_SECRET_KEY` (server) y `PUBLIC_STRIPE_PUBLISHABLE_KEY` (client). Nunca commitear `.env`.
+
+### Tarjetas de prueba
+
+| Número | Resultado |
+|---|---|
+| `4242 4242 4242 4242` | Pago exitoso |
+| `4000 0025 0000 3155` | Requiere 3D Secure |
+| `4000 0000 0000 9995` | Fondos insuficientes |
+
 ## 🚀 Estructura del Proyecto
 
 ```
 src/
-├── components/    # Navbar, Hero, Footer (Astro + Tailwind)
+├── components/    # Navbar, Hero, Footer, CartSheet, PaymentDialog
 ├── layouts/       # Layout base (script global de <details>)
-├── pages/         # index.astro (composición viewport-bound)
+├── pages/
+│   ├── api/
+│   │   └── create-payment-intent.ts  # Endpoint SSR de Stripe
+│   └── index.astro
 └── styles/
     └── global.css # @import "tailwindcss" + @theme tokens
 ```
@@ -90,3 +118,7 @@ src/
 - **2026-04-18:** `<details>` nativo elegido para hamburguesa (Navbar) y dropdown de redes (Footer) por accesibilidad y ausencia de JS pesado. Problema: el navegador oculta el contenido cerrado mediante `display:none`, bloqueando transiciones CSS. Solución: override `details > *:not(summary) { display: block }` + estado cerrado con `opacity-0 + translate + pointer-events-none` controlado por `group-open:`.
 - **2026-04-18:** Botón de búsqueda requería abrir input sin cerrar el menú. Script global cerraba todo `<a>/<button>` interno. Solución: atributo marcador `data-no-close` respetado por el handler, acompañado de un script local que alterna visibilidad del input con animación de ancho + opacidad.
 - **2026-04-18:** Panel dropdown del Footer quedaba detrás de blobs/burbujas del Hero. Se añadió `z-40` al footer y `z-50` al panel para establecer un stacking context superior al contenido del Hero (`z-10`).
+- **2026-04-20:** Integración de Stripe PaymentElement. Error inicial: `.vercel/output/` commiteado con la secret key embebida en el bundle SSR. Resolución: agregar `.vercel/` al `.gitignore`, rotar la clave en Stripe Dashboard y usar bypass de GitHub Secret Scanning (clave de prueba ya inválida).
+- **2026-04-20:** `output: 'hybrid'` eliminado en Astro 6 — reemplazado por comportamiento por defecto de `output: 'static'` con `export const prerender = false` por ruta. Adapter cambiado de `@astrojs/node` a `@astrojs/vercel` para compatibilidad con Serverless Functions.
+- **2026-04-20:** Link de Stripe aparecía en el formulario por defecto al usar `automatic_payment_methods`. Resuelto con `wallets: { link: 'never' }` en las opciones de `PaymentElement`. Además, el dialog desbordaba verticalmente al expandirse el componente de Link — corregido con `max-h-[90vh] overflow-y-auto` en `DialogContent`.
+- **2026-04-20:** Latencia al abrir el dialog de pago causada por inicialización tardía de Stripe Elements. Resuelto moviendo el provider `<Elements>` a `CartSheet` para pre-inicializar la sesión al abrir el carrito.
