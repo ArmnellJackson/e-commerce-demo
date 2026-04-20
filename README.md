@@ -1,6 +1,8 @@
+![Vista previa del proyecto](public/e-commerce-demo-boys.png)
+
 # Nube de Colores | E-commerce Infantil
 
-Plataforma de comercio electrónico especializada en ropa para niños y niñas, diseñada con una estética lúdica, suave y moderna utilizando **Astro + Tailwind CSS v4**.
+Plataforma de comercio electrónico especializada en ropa para niños y niñas, diseñada con una estética lúdica, suave y moderna utilizando **Astro + Tailwind CSS v4 + shadcn**.
 
 ## 🎨 Patrón de Diseño: Lúdico-Orgánico (Signature Design)
 
